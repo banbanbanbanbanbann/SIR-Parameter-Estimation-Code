@@ -7,7 +7,7 @@ smooth_times <- seq(0, 3, by = 0.05)
 fitted_model <- ode(y = c(S = S_data[1], I = I_data[1], R = R_data[1]), 
                     times = smooth_times, 
                     func = sir_equations, 
-                    parms = c(beta = result$par[1], gamma = result$par[2]))
+                    parms = result$par)
 
 # Convert the output to a data frame for easy plotting
 fitted_data <- as.data.frame(fitted_model)
