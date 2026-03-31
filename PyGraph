@@ -1,0 +1,36 @@
+import matplotlib.pyplot as plt
+
+# --- 5. PLOT THE FITTED CURVES VS ACTUAL DATA ---
+
+# Create a smooth timeline for the curves (e.g., 100 points between phase 0 and 3)
+smooth_times = np.linspace(0, 3, 100)
+
+# Start the simulation using your actual Phase 1 numbers
+y0 = [S_data[0], I_data[0], R_data[0]] 
+
+# Run the simulation using the newly discovered "best" rates
+fitted_prediction = odeint(sir_model, y0, smooth_times, args=(best_beta, best_gamma))
+S_smooth, I_smooth, R_smooth = fitted_prediction.T
+
+# Set up the visual plot
+plt.figure(figsize=(10, 6))
+
+# 1. Draw the smooth predicted lines from the mathematical model
+plt.plot(smooth_times, S_smooth, 'b-', linewidth=2, label='Susceptible (Model)')
+plt.plot(smooth_times, I_smooth, 'r-', linewidth=2, label='Infectious (Model)')
+plt.plot(smooth_times, R_smooth, 'g-', linewidth=2, label='Recovered (Model)')
+
+# 2. Add your actual survey data points on top to check the accuracy!
+plt.plot(t_data, S_data, 'bo', markersize=8, label='Actual S Data')
+plt.plot(t_data, I_data, 'ro', markersize=8, label='Actual I Data')
+plt.plot(t_data, R_data, 'go', markersize=8, label='Actual R Data')
+
+# 3. Format the graph with titles, labels, and a grid
+plt.title('SIR Model Fit to Survey Data')
+plt.xlabel('Time (Phases)')
+plt.ylabel('Number of People')
+plt.legend(loc='center right')
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# Show the final interactive plot window
+plt.show()
